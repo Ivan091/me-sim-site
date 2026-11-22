@@ -18,13 +18,13 @@ run_hygiene() {
         echo "== typos"
         typos
     else
-        echo "== typos not installed here; CI runs it" >&2
+        echo "== typos not installed; skipped (CI runs it)" >&2
     fi
     if command -v gitleaks >/dev/null; then
         echo "== gitleaks"
         gitleaks git --no-banner .
     else
-        echo "== gitleaks not installed here; CI runs it" >&2
+        echo "== gitleaks not installed; skipped (CI runs it)" >&2
     fi
 }
 
@@ -43,7 +43,7 @@ if ! command -v bundle >/dev/null && [ "$in_container" = 0 ]; then
         ruby:3.3 bash scripts/check.sh "${forward[@]}"
     status=$?
     for tool in typos gitleaks; do
-        command -v "$tool" >/dev/null || echo "== $tool not installed here; CI runs it" >&2
+        command -v "$tool" >/dev/null || echo "== $tool not installed; skipped (CI runs it)" >&2
     done
     command -v typos >/dev/null && typos
     command -v gitleaks >/dev/null && gitleaks git --no-banner .
